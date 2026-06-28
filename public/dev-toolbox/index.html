@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dev Toolbox</title>
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0f1117;
+      --surface:  #1a1d27;
+      --border:   #2a2d3e;
+      --text:     #e2e4f0;
+      --muted:    #7b7f96;
+      --accent:   #5b8fff;
+      --accent-h: #7ba3ff;
+      --success:  #3dd68c;
+      --error:    #ff5f5f;
+      --warning:  #f0a843;
+      --radius:   8px;
+      --mono:     'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ── */
+    header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface);
+    }
+
+    header .logo {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--accent);
+    }
+
+    header .logo span { color: var(--text); }
+
+    /* ── Main layout ── */
+    main {
+      flex: 1;
+      display: grid;
+      grid-template-rows: 1fr auto auto 1fr;
+      gap: 0;
+      padding: 20px;
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* ── Textarea panels ── */
+    .panel {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .panel-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .stats {
+      display: flex;
+      gap: 16px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .stats span strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    textarea {
+      width: 100%;
+      height: 220px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.6;
+      padding: 14px 16px;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    textarea:focus { border-color: var(--accent); }
+    textarea::placeholder { color: var(--muted); }
+
+    /* ── Tool grid ── */
+    .tools-section {
+      padding: 16px 0;
+    }
+
+    .tools-section h2 {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .tool-groups {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tool-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tool-group-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+    }
+
+    .tool-buttons {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 12px;
+      transition: all 0.12s;
+      white-space: nowrap;
+    }
+
+    button:hover {
+      background: var(--border);
+      border-color: var(--accent);
+      color: var(--accent-h);
+    }
+
+    button:active { transform: scale(0.97); }
+
+    /* Category accent colours on group headers */
+    .tool-group[data-cat="json"]   .tool-group-label { color: #f0a843; }
+    .tool-group[data-cat="base64"] .tool-group-label { color: #3dd68c; }
+    .tool-group[data-cat="url"]    .tool-group-label { color: #5b8fff; }
+    .tool-group[data-cat="xml"]    .tool-group-label { color: #c97bfb; }
+    .tool-group[data-cat="text"]   .tool-group-label { color: #ff8c69; }
+
+    /* ── Output area ── */
+    .output-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #copy-btn {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      padding: 5px 14px;
+      font-size: 12px;
+    }
+
+    #copy-btn:hover {
+      background: var(--accent-h);
+      border-color: var(--accent-h);
+      color: #fff;
+    }
+
+    #output {
+      font-family: var(--mono);
+      font-size: 13px;
+      height: 220px;
+    }
+
+    /* Status line below output */
+    #status {
+      font-size: 12px;
+      min-height: 18px;
+      padding: 2px 0;
+    }
+
+    #status.ok     { color: var(--success); }
+    #status.error  { color: var(--error); }
+    #status.info   { color: var(--muted); }
+
+    /* ── Clear btn ── */
+    #clear-btn {
+      font-size: 11px;
+      padding: 4px 10px;
+      color: var(--muted);
+      border-color: transparent;
+    }
+    #clear-btn:hover { color: var(--error); border-color: var(--error); background: transparent; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">dev<span>toolbox</span></div>
+</header>
+
+<main>
+  <!-- ── Input ── -->
+  <div class="panel">
+    <div class="panel-label">
+      <span>Input</span>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <div class="stats">
+          <span><strong id="char-count">0</strong> chars</span>
+          <span><strong id="word-count">0</strong> words</span>
+          <span><strong id="line-count">0</strong> lines</span>
+        </div>
+        <button id="clear-btn" title="Clear input">✕ clear</button>
+      </div>
+    </div>
+    <textarea id="input" placeholder="Paste your text, JSON, XML, URL, or Base64 here…" spellcheck="false"></textarea>
+  </div>
+
+  <!-- ── Tool buttons ── -->
+  <div class="tools-section">
+    <h2>Tools</h2>
+    <div class="tool-groups">
+
+      <div class="tool-group" data-cat="json">
+        <div class="tool-group-label">JSON</div>
+        <div class="tool-buttons">
+          <button data-tool="json-format">Format</button>
+          <button data-tool="json-minify">Minify</button>
+          <button data-tool="json-validate">Validate</button>
+        </div>
+      </div>
+
+      <div class="tool-group" data-cat="base64">
+        <div class="tool-group-label">Base64</div>
+        <div class="tool-buttons">
+          <button data-tool="b64-encode">Encode</button>
+          <button data-tool="b64-decode">Decode</button>
+        </div>
+      </div>
+
+      <div class="tool-group" data-cat="url">
+        <div class="tool-group-label">URL</div>
+        <div class="tool-buttons">
+          <button data-tool="url-encode">Encode</button>
+          <button data-tool="url-decode">Decode</button>
+        </div>
+      </div>
+
+      <div class="tool-group" data-cat="xml">
+        <div class="tool-group-label">XML</div>
+        <div class="tool-buttons">
+          <button data-tool="xml-format">Format</button>
+          <button data-tool="xml-minify">Minify</button>
+        </div>
+      </div>
+
+      <div class="tool-group" data-cat="text">
+        <div class="tool-group-label">Text</div>
+        <div class="tool-buttons">
+          <button data-tool="text-upper">UPPER</button>
+          <button data-tool="text-lower">lower</button>
+          <button data-tool="text-title">Title Case</button>
+          <button data-tool="text-reverse">Reverse</button>
+          <button data-tool="text-trim">Trim Lines</button>
+          <button data-tool="text-sort">Sort Lines</button>
+          <button data-tool="text-dedup">Dedup Lines</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Output ── -->
+  <div class="output-panel">
+    <div class="output-header">
+      <div class="panel-label" style="font-size:11px">Output</div>
+      <button id="copy-btn">Copy output</button>
+    </div>
+    <textarea id="output" readonly placeholder="Output appears here…" spellcheck="false"></textarea>
+    <div id="status" class="info"></div>
+  </div>
+</main>
+
+<script>
+  // ── DOM refs ──
+  const inputEl  = document.getElementById('input');
+  const outputEl = document.getElementById('output');
+  const status   = document.getElementById('status');
+  const copyBtn  = document.getElementById('copy-btn');
+  const clearBtn = document.getElementById('clear-btn');
+
+  // ── Live stats ──
+  function updateStats() {
+    const val = inputEl.value;
+    document.getElementById('char-count').textContent = val.length;
+    // words: split on whitespace, filter empty
+    document.getElementById('word-count').textContent =
+      val.trim() === '' ? 0 : val.trim().split(/\s+/).length;
+    // lines: empty string is still 1 line in most editors, but 0 feels right when blank
+    document.getElementById('line-count').textContent =
+      val === '' ? 0 : val.split('\n').length;
+  }
+  inputEl.addEventListener('input', updateStats);
+
+  // ── Status helpers ──
+  function setStatus(msg, type = 'info') {
+    status.textContent = msg;
+    status.className = type;
+  }
+
+  function setOutput(val, msg, type = 'ok') {
+    outputEl.value = val;
+    setStatus(msg, type);
+  }
+
+  // ── JSON tools ──
+  function jsonFormat() {
+    try {
+      const parsed = JSON.parse(inputEl.value);
+      setOutput(JSON.stringify(parsed, null, 2), '✓ JSON formatted', 'ok');
+    } catch (e) {
+      // Extract line/col from the error message when available
+      const m = e.message.match(/position (\d+)/) || e.message.match(/line (\d+)/);
+      const hint = m ? ` (near position ${m[1]})` : '';
+      setOutput('', `✗ Invalid JSON: ${e.message}${hint}`, 'error');
+    }
+  }
+
+  function jsonMinify() {
+    try {
+      const parsed = JSON.parse(inputEl.value);
+      setOutput(JSON.stringify(parsed), '✓ JSON minified', 'ok');
+    } catch (e) {
+      setOutput('', `✗ Invalid JSON: ${e.message}`, 'error');
+    }
+  }
+
+  function jsonValidate() {
+    try {
+      JSON.parse(inputEl.value);
+      setOutput('', '✓ Valid JSON — no errors found', 'ok');
+    } catch (e) {
+      // Pull position/line numbers from the native error message
+      setOutput('', `✗ ${e.message}`, 'error');
+    }
+  }
+
+  // ── Base64 tools ──
+  function b64Encode() {
+    try {
+      // TextEncoder handles full Unicode; btoa alone only covers Latin-1
+      const bytes = new TextEncoder().encode(inputEl.value);
+      const binary = Array.from(bytes, b => String.fromCharCode(b)).join('');
+      setOutput(btoa(binary), '✓ Base64 encoded', 'ok');
+    } catch (e) {
+      setOutput('', `✗ Encode failed: ${e.message}`, 'error');
+    }
+  }
+
+  function b64Decode() {
+    try {
+      const binary = atob(inputEl.value.trim());
+      const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+      setOutput(new TextDecoder().decode(bytes), '✓ Base64 decoded', 'ok');
+    } catch (e) {
+      setOutput('', '✗ Invalid Base64 — make sure the input is a valid Base64 string', 'error');
+    }
+  }
+
+  // ── URL tools ──
+  function urlEncode() {
+    try {
+      // encodeURIComponent encodes everything except: A-Z a-z 0-9 - _ . ! ~ * ' ( )
+      setOutput(encodeURIComponent(inputEl.value), '✓ URL encoded', 'ok');
+    } catch (e) {
+      setOutput('', `✗ Encode failed: ${e.message}`, 'error');
+    }
+  }
+
+  function urlDecode() {
+    try {
+      setOutput(decodeURIComponent(inputEl.value), '✓ URL decoded', 'ok');
+    } catch (e) {
+      setOutput('', '✗ Invalid URL encoding — check for malformed % sequences', 'error');
+    }
+  }
+
+  // ── XML tools ──
+
+  // Recursive pretty-printer — avoids depending on a library
+  function xmlNodeToString(node, indent) {
+    const pad = '  '.repeat(indent);
+    if (node.nodeType === Node.TEXT_NODE) {
+      const text = node.textContent.trim();
+      return text ? pad + text + '\n' : '';
+    }
+    if (node.nodeType === Node.COMMENT_NODE) {
+      return `${pad}<!--${node.nodeValue}-->\n`;
+    }
+    if (node.nodeType !== Node.ELEMENT_NODE) return '';
+
+    const tag    = node.nodeName;
+    const attrs  = Array.from(node.attributes)
+                        .map(a => ` ${a.name}="${a.value}"`)
+                        .join('');
+    const kids   = Array.from(node.childNodes);
+    const texts  = kids.filter(k => k.nodeType === Node.TEXT_NODE && k.textContent.trim());
+    const elems  = kids.filter(k => k.nodeType === Node.ELEMENT_NODE);
+
+    if (kids.length === 0) return `${pad}<${tag}${attrs}/>\n`;
+
+    // Single text child — keep on one line
+    if (texts.length === 1 && elems.length === 0) {
+      return `${pad}<${tag}${attrs}>${texts[0].textContent.trim()}</${tag}>\n`;
+    }
+
+    const inner = kids.map(k => xmlNodeToString(k, indent + 1)).join('');
+    return `${pad}<${tag}${attrs}>\n${inner}${pad}</${tag}>\n`;
+  }
+
+  function xmlFormat() {
+    const parser = new DOMParser();
+    const doc    = parser.parseFromString(inputEl.value, 'application/xml');
+    const err    = doc.querySelector('parsererror');
+    if (err) {
+      setOutput('', `✗ Invalid XML: ${err.textContent.split('\n')[0]}`, 'error');
+      return;
+    }
+    // Build output from the document element (strips XML declaration for clarity)
+    const result = xmlNodeToString(doc.documentElement, 0).trimEnd();
+    setOutput(result, '✓ XML formatted', 'ok');
+  }
+
+  function xmlMinify() {
+    const parser = new DOMParser();
+    const doc    = parser.parseFromString(inputEl.value, 'application/xml');
+    const err    = doc.querySelector('parsererror');
+    if (err) {
+      setOutput('', `✗ Invalid XML: ${err.textContent.split('\n')[0]}`, 'error');
+      return;
+    }
+    // XMLSerializer produces compact output; strip inter-element whitespace
+    const raw = new XMLSerializer().serializeToString(doc);
+    // Remove whitespace between tags
+    setOutput(raw.replace(/>\s+</g, '><'), '✓ XML minified', 'ok');
+  }
+
+  // ── Text tools ──
+  function textUpper()   { setOutput(inputEl.value.toUpperCase(), '✓ Converted to UPPERCASE', 'ok'); }
+  function textLower()   { setOutput(inputEl.value.toLowerCase(), '✓ Converted to lowercase', 'ok'); }
+
+  function textTitle() {
+    // Capitalise first letter of every word
+    const result = inputEl.value.replace(/\b\w/g, c => c.toUpperCase());
+    setOutput(result, '✓ Converted to Title Case', 'ok');
+  }
+
+  function textReverse() {
+    // Reverse the entire string character by character
+    setOutput([...inputEl.value].reverse().join(''), '✓ Text reversed', 'ok');
+  }
+
+  function textTrim() {
+    // Trim leading/trailing whitespace from each line
+    const result = inputEl.value.split('\n').map(l => l.trim()).join('\n');
+    setOutput(result, '✓ Lines trimmed', 'ok');
+  }
+
+  function textSort() {
+    const lines  = inputEl.value.split('\n');
+    const sorted = [...lines].sort((a, b) => a.localeCompare(b));
+    setOutput(sorted.join('\n'), `✓ Sorted ${lines.length} lines`, 'ok');
+  }
+
+  function textDedup() {
+    const lines  = inputEl.value.split('\n');
+    const unique = [...new Set(lines)];
+    const removed = lines.length - unique.length;
+    setOutput(unique.join('\n'), `✓ Removed ${removed} duplicate line(s)`, 'ok');
+  }
+
+  // ── Tool dispatch map ──
+  const tools = {
+    'json-format':   jsonFormat,
+    'json-minify':   jsonMinify,
+    'json-validate': jsonValidate,
+    'b64-encode':    b64Encode,
+    'b64-decode':    b64Decode,
+    'url-encode':    urlEncode,
+    'url-decode':    urlDecode,
+    'xml-format':    xmlFormat,
+    'xml-minify':    xmlMinify,
+    'text-upper':    textUpper,
+    'text-lower':    textLower,
+    'text-title':    textTitle,
+    'text-reverse':  textReverse,
+    'text-trim':     textTrim,
+    'text-sort':     textSort,
+    'text-dedup':    textDedup,
+  };
+
+  // Single delegated listener on the entire document
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('[data-tool]');
+    if (!btn) return;
+    const fn = tools[btn.dataset.tool];
+    if (fn) fn();
+  });
+
+  // ── Copy output ──
+  copyBtn.addEventListener('click', () => {
+    if (!outputEl.value) return;
+    navigator.clipboard.writeText(outputEl.value).then(() => {
+      const orig = copyBtn.textContent;
+      copyBtn.textContent = 'Copied!';
+      setTimeout(() => { copyBtn.textContent = orig; }, 1500);
+    });
+  });
+
+  // ── Clear input ──
+  clearBtn.addEventListener('click', () => {
+    inputEl.value = '';
+    outputEl.value = '';
+    setStatus('', 'info');
+    updateStats();
+    inputEl.focus();
+  });
+</script>
+</body>
+</html>

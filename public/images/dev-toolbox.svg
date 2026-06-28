@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 340" width="600" height="340">
+  <!-- Background -->
+  <rect width="600" height="340" fill="#0f1117"/>
+
+  <!-- Header bar -->
+  <rect width="600" height="36" fill="#1a1d27"/>
+  <rect x="0" y="35" width="600" height="1" fill="#2a2d3e"/>
+  <text x="16" y="23" font-family="monospace" font-size="13" font-weight="700" fill="#5b8fff">dev</text>
+  <text x="44" y="23" font-family="monospace" font-size="13" font-weight="700" fill="#e2e4f0">toolbox</text>
+
+  <!-- Input textarea -->
+  <rect x="16" y="52" width="568" height="80" rx="6" fill="#1a1d27" stroke="#2a2d3e" stroke-width="1"/>
+  <text x="28" y="72" font-family="monospace" font-size="10" fill="#7b7f96">Paste your text, JSON, XML, URL, or Base64 here…</text>
+
+  <!-- Stats bar -->
+  <text x="16" y="48" font-family="monospace" font-size="8" fill="#7b7f96">INPUT</text>
+  <text x="490" y="48" font-family="monospace" font-size="8" fill="#7b7f96">0 chars  0 words  0 lines</text>
+
+  <!-- Tool group: JSON -->
+  <rect x="16" y="148" width="116" height="58" rx="6" fill="#1a1d27" stroke="#2a2d3e" stroke-width="1"/>
+  <text x="26" y="162" font-family="monospace" font-size="8" font-weight="700" fill="#f0a843">JSON</text>
+  <rect x="24" y="168" width="30" height="16" rx="4" fill="#1a1d27" stroke="#2a2d3e" stroke-width="1"/>
+  <text x="30" y="179" font-family="monospace" font-size="8" fill="#e2e4f0">Format</text>
+  <rect x="60" y="168" width="30" height="16" rx="4" fill="#1a1d27" stroke="#2a2d3e" stroke-width="1"/>
+  <text x="64" y="179" font-family="monospace" font-size="8" fill="#e2e4f0">Minify</text>
+  <rect x="96" y="168" width="30" height="16" rx="4" fill="#1a1d27" stroke="#2a2d3e" stroke-width="1"/>
+  <text x="98" y="179" font-family="monospace" font-size="8" fill="#e2e4f0">Validate</text>
+
+  <!-- Tool group: Base64 -->
+  <rect x="140" y="148" width="88" height="58" rx="6" fill="#1a1d27" stroke="#2a2d3e" stroke-width="1"/>
+  <text x="150" y="162" font-family="monospace" font-size="8" font-weight="700" fill="#3dd68c">BASE64</text>
+  <rect x="148" y="168" width="32" height="16" rx="4" fill="#1a1d27" stroke="#2a2d3e" stroke-width="1"/>
+  <text x="153" y="179" font-family="monospace" font-size="8" fill="#e2e4f0">Encode</text>
+  <rect x="186" y="168" width="32" height="16" rx="4" fill="#1a1d27" stroke="#2a2d3e" stroke-width="1"/>
+  <text x="191" y="179" font-family="monospace" font-size="8" fill="#e2e4f0">Decode</text>
+
+  <!-- Tool group: URL -->
+  <rect x="236" y="148" width="88" height="58" rx="6" fill="#1a1d27" stroke="#2a2d3e" stroke-width="1"/>
+  <text x="246" y="162" font-family="monospace" font-size="8" font-weight="700" fill="#5b8fff">URL</text>
+  <rect x="244" y="168" width="32" height="16" rx="4" fill="#1a1d27" stroke="#2a2d3e" stroke-width="1"/>
+  <text x="249" y="179" font-family="monospace" font-size="8" fill="#e2e4f0">Encode</text>
+  <rect x="282" y="168" width="32" height="16" rx="4" fill="#1a1d27" stroke="#2a2d3e" stroke-width="1"/>
+  <text x="287" y="179" font-family="monospace" font-size="8" fill="#e2e4f0">Decode</text>
+
+  <!-- Tool group: XML -->
+  <rect x="332" y="148" width="88" height="58" rx="6" fill="#1a1d27" stroke="#2a2d3e" stroke-width="1"/>
+  <text x="342" y="162" font-family="monospace" font-size="8" font-weight="700" fill="#c97bfb">XML</text>
+  <rect x="340" y="168" width="32" height="16" rx="4" fill="#1a1d27" stroke="#2a2d3e" stroke-width="1"/>
+  <text x="345" y="179" font-family="monospace" font-size="8" fill="#e2e4f0">Format</text>
+  <rect x="378" y="168" width="32" height="16" rx="4" fill="#1a1d27" stroke="#2a2d3e" stroke-width="1"/>
+  <text x="381" y="179" font-family="monospace" font-size="8" fill="#e2e4f0">Minify</text>
+
+  <!-- Tool group: Text -->
+  <rect x="428" y="148" width="156" height="58" rx="6" fill="#1a1d27" stroke="#2a2d3e" stroke-width="1"/>
+  <text x="438" y="162" font-family="monospace" font-size="8" font-weight="700" fill="#ff8c69">TEXT</text>
+  <rect x="436" y="168" width="30" height="16" rx="4" fill="#1a1d27" stroke="#2a2d3e" stroke-width="1"/>
+  <text x="440" y="179" font-family="monospace" font-size="8" fill="#e2e4f0">UPPER</text>
+  <rect x="472" y="168" width="26" height="16" rx="4" fill="#1a1d27" stroke="#2a2d3e" stroke-width="1"/>
+  <text x="476" y="179" font-family="monospace" font-size="8" fill="#e2e4f0">lower</text>
+  <rect x="504" y="168" width="34" height="16" rx="4" fill="#1a1d27" stroke="#2a2d3e" stroke-width="1"/>
+  <text x="507" y="179" font-family="monospace" font-size="8" fill="#e2e4f0">Sort Lines</text>
+
+  <!-- Output label + copy button -->
+  <text x="16" y="222" font-family="monospace" font-size="8" fill="#7b7f96">OUTPUT</text>
+  <rect x="514" y="212" width="70" height="18" rx="5" fill="#5b8fff"/>
+  <text x="527" y="224" font-family="monospace" font-size="8" font-weight="600" fill="#ffffff">Copy output</text>
+
+  <!-- Output textarea -->
+  <rect x="16" y="228" width="568" height="80" rx="6" fill="#1a1d27" stroke="#2a2d3e" stroke-width="1"/>
+
+  <!-- Simulated JSON output content -->
+  <text x="28" y="248" font-family="monospace" font-size="9" fill="#e2e4f0">{</text>
+  <text x="28" y="261" font-family="monospace" font-size="9" fill="#5b8fff">  "name"</text>
+  <text x="80" y="261" font-family="monospace" font-size="9" fill="#7b7f96">: </text>
+  <text x="90" y="261" font-family="monospace" font-size="9" fill="#3dd68c">"dev toolbox"</text>
+  <text x="182" y="261" font-family="monospace" font-size="9" fill="#7b7f96">,</text>
+  <text x="28" y="274" font-family="monospace" font-size="9" fill="#5b8fff">  "tools"</text>
+  <text x="74" y="274" font-family="monospace" font-size="9" fill="#7b7f96">: [</text>
+  <text x="90" y="274" font-family="monospace" font-size="9" fill="#3dd68c">"JSON"</text>
+  <text x="127" y="274" font-family="monospace" font-size="9" fill="#7b7f96">, </text>
+  <text x="138" y="274" font-family="monospace" font-size="9" fill="#3dd68c">"Base64"</text>
+  <text x="183" y="274" font-family="monospace" font-size="9" fill="#7b7f96">, </text>
+  <text x="194" y="274" font-family="monospace" font-size="9" fill="#3dd68c">"URL"</text>
+  <text x="220" y="274" font-family="monospace" font-size="9" fill="#7b7f96">, </text>
+  <text x="231" y="274" font-family="monospace" font-size="9" fill="#3dd68c">"XML"</text>
+  <text x="257" y="274" font-family="monospace" font-size="9" fill="#7b7f96">]</text>
+  <text x="28" y="287" font-family="monospace" font-size="9" fill="#e2e4f0">}</text>
+
+  <!-- Status line -->
+  <text x="16" y="320" font-family="monospace" font-size="8" fill="#3dd68c">✓ JSON formatted</text>
+</svg>
