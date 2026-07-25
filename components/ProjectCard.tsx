@@ -1,52 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import type { Project } from "@/data/projects";
 
 const cardClass =
   "group flex flex-col bg-zinc-900 border border-white/10 rounded-xl overflow-hidden hover:border-indigo-500/60 transition-colors";
-
-function LikeButton({ slug }: { slug: string }) {
-  const [count, setCount] = useState<number | null>(null);
-  const [liked, setLiked] = useState(false);
-
-  useEffect(() => {
-    const stored = localStorage.getItem(`liked:${slug}`);
-    if (stored) setLiked(true);
-
-    fetch(`/api/likes/${slug}`)
-      .then((r) => r.json())
-      .then((d) => setCount(d.count));
-  }, [slug]);
-
-  const handleLike = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (liked) return;
-
-    setLiked(true);
-    setCount((c) => (c ?? 0) + 1);
-    localStorage.setItem(`liked:${slug}`, "1");
-
-    await fetch(`/api/likes/${slug}`, { method: "POST" });
-  };
-
-  return (
-    <button
-      onClick={handleLike}
-      title={liked ? "Already liked" : "Like this project"}
-      className={`flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border transition-colors ${
-        liked
-          ? "border-indigo-500/60 text-indigo-400 bg-indigo-500/10"
-          : "border-white/10 text-zinc-500 hover:border-indigo-500/40 hover:text-indigo-400"
-      }`}
-    >
-      <span>{liked ? "♥" : "♡"}</span>
-      <span>{count ?? "—"}</span>
-    </button>
-  );
-}
 
 function CardInner({ project }: { project: Project }) {
   return (
@@ -83,18 +41,15 @@ function CardInner({ project }: { project: Project }) {
 
         <p className="text-zinc-400 text-sm leading-relaxed flex-1">{project.description}</p>
 
-        <div className="flex items-center justify-between pt-1">
-          <div className="flex flex-wrap gap-2">
-            {project.tags.map((tag) => (
-              <span
-                key={tag}
-                className="text-xs px-2 py-0.5 rounded-full bg-zinc-800 border border-white/10 text-zinc-400"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-          <LikeButton slug={project.slug} />
+        <div className="flex flex-wrap gap-2 pt-1">
+          {project.tags.map((tag) => (
+            <span
+              key={tag}
+              className="text-xs px-2 py-0.5 rounded-full bg-zinc-800 border border-white/10 text-zinc-400"
+            >
+              {tag}
+            </span>
+          ))}
         </div>
       </div>
     </>

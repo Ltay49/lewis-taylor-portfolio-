@@ -59,6 +59,7 @@ const projects: Project[] = [
     tags: ["Python", "FastAPI", "Whisper", "React", "TypeScript", "Supabase", "AWS S3", "Redis"],
     url: "/projects/football-clip-finder",
     external: false,
+    image: "/images/AnyClipFinder.png",
   },
   {
     slug: "nc-news",

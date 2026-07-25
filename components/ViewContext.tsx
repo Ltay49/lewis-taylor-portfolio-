@@ -13,7 +13,7 @@ const ViewContext = createContext<ViewContextType>({
 });
 
 export function ViewProvider({ children }: { children: React.ReactNode }) {
-  const [jsonMode, setJsonMode] = useState(true);
+  const [jsonMode, setJsonMode] = useState(false);
   return (
     <ViewContext.Provider value={{ jsonMode, toggle: () => setJsonMode((v) => !v) }}>
       {children}
