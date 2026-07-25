@@ -17,7 +17,7 @@ const projects: Project[] = [
     description:
       "An interactive football guessing game. Test your knowledge of Premier League players across every club.",
     tags: ["Game", "Node", "TypeScript"],
-    url: "https://barclaysmen.vercel.app",
+    url: "https://barclaysmenweb.netlify.app",
     external: true,
     image: "/images/barclaysmen.jpg",
   },
