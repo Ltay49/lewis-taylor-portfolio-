@@ -76,8 +76,8 @@ const projects: Project[] = [
     description:
       "A single-page browser utility for formatting JSON/XML, encoding Base64 and URLs, and transforming text — no install needed.",
     tags: ["Tool", "Vanilla JS", "HTML"],
-    url: "/projects/dev-toolbox",
-    external: false,
+    url: "https://formatit.net",
+    external: true,
     image: "/images/dev-toolbox.svg",
   },
 ];
